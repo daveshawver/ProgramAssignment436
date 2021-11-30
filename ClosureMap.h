@@ -21,12 +21,12 @@ class ClosureMap {
         vector<FD*> FDArray;
         vector<pair<set<string>, set<string>>> R_Subset_Closure_Pairs;
         vector<set<string>> all_Subsets_of_R;
-        void generate_all_subsets_of_R();
+        void generate_all_subsets_of_R_and_closures();
         void read_from_file();
         void print_all_subsets_of_R();
-        void printClosureMap();
+        void print_init_FD_Array();
         void print_R();
         set<string> computeClosure(const set<string>* inputSubset);
-        void ClosureMap::printSubsetPairs();
+        void print_all_subset_closure_pairs();
         ClosureMap(int choice);
 };

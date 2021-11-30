@@ -10,10 +10,11 @@ int main(int argc, char* argv[]){
     }
 
     ClosureMap closMap(atoi(argv[1]));
-    closMap.printClosureMap();
+    closMap.print_init_FD_Array();
     closMap.print_R();
-    closMap.generate_all_subsets_of_R();
+    closMap.generate_all_subsets_of_R_and_closures();
     closMap.print_all_subsets_of_R();
+    closMap.print_all_subset_closure_pairs();
 
     return 0;
 }

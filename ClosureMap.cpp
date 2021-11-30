@@ -158,7 +158,7 @@ ClosureMap::ClosureMap(int choice){
     }
 }
 
-void ClosureMap::printClosureMap(){
+void ClosureMap::print_init_FD_Array(){
 
     cout << "You added " << FDArray.size() << " functional dependencies originally" << endl;
 
@@ -179,7 +179,7 @@ void ClosureMap::printClosureMap(){
     }
 }
 
-void ClosureMap::generate_all_subsets_of_R(){
+void ClosureMap::generate_all_subsets_of_R_and_closures(){
 
     int count = pow(2, R.size());
 
@@ -229,39 +229,46 @@ void ClosureMap::print_R(){
     }
 }
 
-void ClosureMap::printSubsetPairs(){
+void ClosureMap::print_all_subset_closure_pairs(){
 
     for (int i = 0; i < R_Subset_Closure_Pairs.size(); i++){
 
-        for(int j = 0; j < R_Subset_Closure_Pairs[i].first
-
-
+        cout << "pair " << i << ": \n";
+        cout << "\tsubset = ";
+        for(auto it = R_Subset_Closure_Pairs[i].first.begin(); it !=R_Subset_Closure_Pairs[i].first.end(); it++){
+            cout << *it << ", ";
+        }
+        cout << "\n\tclosure = ";
+        for(auto it2 = R_Subset_Closure_Pairs[i].second.begin(); it2 !=R_Subset_Closure_Pairs[i].second.end(); it2++){
+            cout << *it2 << ", ";
+        }
+        cout << "\n\n";
     }
-
-    cout << 
-
 }
 
 // compute the attribute closure set
 set<string> ClosureMap::computeClosure(const set<string>* inputSubset){
 
       set<string> result(*inputSubset);
-      set<string> currentLHS, previousStateofResult;
+      set<string> previousStateofResult;
 
-      for (int i = 0; i < FDArray.size() ; i++){
-          currentLHS = FDArray[i]->LHS;
-            
-            while(!equal(result.begin(), result.end(), previousStateofResult.begin(), previousStateofResult.end())){
-                if (includes(result.begin(), result.end(),currentLHS.begin(), currentLHS.end())){
-                    set <string> previousStateofResult(result);
-                    // form union in place
-                    std::set<string> temp_set;
-                    std::set_union(result.begin(), result.end(), 
-                                currentLHS.begin(), currentLHS.end(), 
-                                std::inserter(temp_set, temp_set.begin()));
-                    result.swap(temp_set);          // temp_set will be deleted
-                 }
+
+
+    while(!equal(result.begin(), result.end(), previousStateofResult.begin(), previousStateofResult.end())){
+        previousStateofResult = result;
+        for (int i = 0; i < FDArray.size() ; i++){
+            set<string>currentLHS = FDArray[i]->LHS;
+            set<string>currentRHS = FDArray[i]->RHS;
+            if (includes(result.begin(), result.end(), currentLHS.begin(), currentLHS.end())){
+                // form union in place
+                std::set<string> temp_set;
+                std::set_union(result.begin(), result.end(), 
+                            currentRHS.begin(), currentRHS.end(), 
+                            std::inserter(temp_set, temp_set.begin()));
+                result.swap(temp_set);       // temp_set will be deleted
+                temp_set.clear();
             }
         }
+    }
     return result;
-  }
+}

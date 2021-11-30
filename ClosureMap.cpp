@@ -305,11 +305,40 @@ void ClosureMap::print_superkeys(){
     cout << endl;
 }
 
+void ClosureMap::print_candidate_keys(){
+
+    for(int i = 0; i < candidateKeys.size(); i++){
+        cout << "\n candidate key " << i + 1 << " is (" ; 
+        for (auto it = candidateKeys[i].begin(); it != candidateKeys[i].end(); it++){
+            cout << *it;
+            auto it2 = it;
+            if (++it2 != candidateKeys[i].end()){
+                cout << ", ";
+            }
+        }
+        cout << ")";
+    }
+    cout << endl;
+}
+
+
+
 void ClosureMap::remove_extra_sks_and_gen_cand_key_list(){
 
-    for(int i = 0; i < superKeys.size() - 1; i++){
-        for(int j = i+1; j < superKeys.size(); j++){
-            if ()
-        }
+    for(int i = 0; i < superKeys.size(); i++){
+       candidateKeys.insert(superKeys[i]);
     }
+
+    for(int i = 0; i < candidateKeys.size() - 1; i++){
+        for(int j = i+1; j < candidateKeys.size(); j++){
+            if (includes(candidateKeys[i].begin(), candidateKeys[i].end(), candidateKeys[j].begin(), candidateKeys[j].end())){
+                candidateKeys.erase(candidateKeys.begin() + i);
+            }
+            else{
+                if(includes(candidateKeys[j].begin(), candidateKeys[j].end(), candidateKeys[i].begin(), candidateKeys[i].end())){
+                    candidateKeys.erase(candidateKeys.begin() +j);
+                }
+            }
+    }
+}
 }

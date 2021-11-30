@@ -23,7 +23,7 @@ class ClosureMap {
         vector<pair<set<string>, set<string>>> R_Subset_Closure_Pairs;
         vector<set<string>> all_Subsets_of_R;
         vector<set<string>> superKeys;
-        vector<set<string>> candidateKeys;
+        set<set<string>> candidateKeys;
         
         void generate_all_subsets_of_R_and_closures();
         set<string> computeClosure(const set<string>* inputSubset);
@@ -31,6 +31,7 @@ class ClosureMap {
         void remove_extra_sks_and_gen_cand_key_list();
 
         void read_from_file();
+        void print_candidate_keys();
         void print_all_subsets_of_R();
         void print_init_FD_Array();
         void print_R();

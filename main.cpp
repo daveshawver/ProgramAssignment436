@@ -17,6 +17,8 @@ int main(int argc, char* argv[]){
     closMap.print_all_subset_closure_pairs();
     closMap.generate_superkey_list();
     closMap.print_superkeys();
+    closMap.remove_extra_sks_and_gen_cand_key_list();
+    closMap.print_candidate_keys();
 
     return 0;
 }

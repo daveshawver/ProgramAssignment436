@@ -1,0 +1,6 @@
+6 4
+name social employeeid dob address phonenum 
+name social->employeeid dob 
+employeeid->address 
+address->phonenum 
+social->phonenum 

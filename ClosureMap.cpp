@@ -41,8 +41,15 @@ void ClosureMap::read_from_file(){
         R.push_back(temp);
     }
 
+
+
     for (int i = 0; i < R.size(); i++){
-        cout << *R[i] << ", " << endl;
+        R_as_Set.insert(*R[i]);
+        // cout << *R[i] << ", ";
+    }
+
+    for (auto it = R_as_Set.begin(); it != R_as_Set.end(); it++){
+        cout << *it << ", ";
     }
 
 
@@ -271,4 +278,38 @@ set<string> ClosureMap::computeClosure(const set<string>* inputSubset){
         }
     }
     return result;
+}
+
+void ClosureMap::generate_superkey_list(){
+
+    for(int i = 0; i < R_Subset_Closure_Pairs.size(); i++){
+        if(equal(R_Subset_Closure_Pairs[i].second.begin(), R_Subset_Closure_Pairs[i].second.end(), R_as_Set.begin(), R_as_Set.end())){
+            superKeys.push_back(R_Subset_Closure_Pairs[i].first);
+        }
+    }
+}
+
+void ClosureMap::print_superkeys(){
+
+    for(int i = 0; i < superKeys.size(); i++){
+        cout << "\nsuperkey " << i + 1 << " is (" ; 
+        for (auto it = superKeys[i].begin(); it != superKeys[i].end(); it++){
+            cout << *it;
+            auto it2 = it;
+            if (++it2 != superKeys[i].end()){
+                cout << ", ";
+            }
+        }
+        cout << ")";
+    }
+    cout << endl;
+}
+
+void ClosureMap::remove_extra_sks_and_gen_cand_key_list(){
+
+    for(int i = 0; i < superKeys.size() - 1; i++){
+        for(int j = i+1; j < superKeys.size(); j++){
+            if ()
+        }
+    }
 }

@@ -10,5 +10,5 @@ Steps:
 	(a) compute X+ [based on algorithm in book… this it’s own function!]
 	(b) generate a pair with the input set and the closure
 (4) Filter out the output pairs where X+ contains R (use set “includes” operation)
-(5) Use nexted for loop to eliminate pairs where an included pair is already found in the list\
+(5) Use nexted for loop to eliminate pairs where an included pair is already found in the list
 (6) What remains are the candidate keys (minimal superkeys)

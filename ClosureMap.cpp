@@ -4,6 +4,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -199,9 +200,14 @@ void ClosureMap::generate_all_subsets_of_R(){
         }
         if (!tempSetP->empty()){
             all_Subsets_of_R.push_back(*tempSetP);
+            pair<set<string>, set<string>>* tempSubsetPair = new pair<set<string>, set<string>>();
+            tempSubsetPair->first = *tempSetP;
+            tempSubsetPair->second = computeClosure(tempSetP);
+            R_Subset_Closure_Pairs.push_back(*tempSubsetPair);
         }
     }
 }
+
 
 void ClosureMap::print_all_subsets_of_R(){
 
@@ -215,9 +221,47 @@ void ClosureMap::print_all_subsets_of_R(){
 
 }
 
+
 void ClosureMap::print_R(){
 
     for (int i = 0; i < R.size(); i++){
         cout << *R[i] << ", ";
     }
 }
+
+void ClosureMap::printSubsetPairs(){
+
+    for (int i = 0; i < R_Subset_Closure_Pairs.size(); i++){
+
+        for(int j = 0; j < R_Subset_Closure_Pairs[i].first
+
+
+    }
+
+    cout << 
+
+}
+
+// compute the attribute closure set
+set<string> ClosureMap::computeClosure(const set<string>* inputSubset){
+
+      set<string> result(*inputSubset);
+      set<string> currentLHS, previousStateofResult;
+
+      for (int i = 0; i < FDArray.size() ; i++){
+          currentLHS = FDArray[i]->LHS;
+            
+            while(!equal(result.begin(), result.end(), previousStateofResult.begin(), previousStateofResult.end())){
+                if (includes(result.begin(), result.end(),currentLHS.begin(), currentLHS.end())){
+                    set <string> previousStateofResult(result);
+                    // form union in place
+                    std::set<string> temp_set;
+                    std::set_union(result.begin(), result.end(), 
+                                currentLHS.begin(), currentLHS.end(), 
+                                std::inserter(temp_set, temp_set.begin()));
+                    result.swap(temp_set);          // temp_set will be deleted
+                 }
+            }
+        }
+    return result;
+  }

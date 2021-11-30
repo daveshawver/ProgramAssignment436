@@ -26,5 +26,7 @@ class ClosureMap {
         void print_all_subsets_of_R();
         void printClosureMap();
         void print_R();
+        set<string> computeClosure(const set<string>* inputSubset);
+        void ClosureMap::printSubsetPairs();
         ClosureMap(int choice);
 };

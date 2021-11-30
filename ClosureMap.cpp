@@ -325,20 +325,41 @@ void ClosureMap::print_candidate_keys(){
 
 void ClosureMap::remove_extra_sks_and_gen_cand_key_list(){
 
+    vector<set<string>> candidateKeysPrevious;
+
     for(int i = 0; i < superKeys.size(); i++){
-       candidateKeys.insert(superKeys[i]);
+        candidateKeys.push_back(superKeys[i]);
+        // candidateKeysPrevious.push_back(superKeys[i]); 
     }
 
-    for(int i = 0; i < candidateKeys.size() - 1; i++){
-        for(int j = i+1; j < candidateKeys.size(); j++){
-            if (includes(candidateKeys[i].begin(), candidateKeys[i].end(), candidateKeys[j].begin(), candidateKeys[j].end())){
-                candidateKeys.erase(candidateKeys.begin() + i);
-            }
-            else{
-                if(includes(candidateKeys[j].begin(), candidateKeys[j].end(), candidateKeys[i].begin(), candidateKeys[i].end())){
-                    candidateKeys.erase(candidateKeys.begin() +j);
+    bool list_was_changed = true;
+
+    while (list_was_changed == true){
+        list_was_changed = false;
+        candidateKeysPrevious.clear();
+
+        for(int i = 0; i < superKeys.size(); i++){
+                candidateKeysPrevious.push_back(candidateKeys[i]);
+                // candidateKeysPrevious.push_back(superKeys[i]); 
+        }
+
+        for(int i = 0; i < candidateKeys.size() - 1; i++){
+            for(int j = i+1; j < candidateKeys.size(); j++){
+                if (includes(candidateKeys[i].begin(), candidateKeys[i].end(), candidateKeys[j].begin(), candidateKeys[j].end())){
+                    candidateKeys.erase(candidateKeys.begin() + i);
+                    list_was_changed = true;
+                    i--;
+                }
+                else{
+                    if(includes(candidateKeys[j].begin(), candidateKeys[j].end(), candidateKeys[i].begin(), candidateKeys[i].end())){
+                        candidateKeys.erase(candidateKeys.begin() + j);
+                        list_was_changed = true;
+                        if (i > 0){i--;}
+                    }
                 }
             }
+        }
     }
-}
+
+
 }

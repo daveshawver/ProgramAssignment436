@@ -5,7 +5,7 @@
 int main(int argc, char* argv[]){
 
     if (argc != 2){
-        cout << " must make a valid choice!! (0 for user input or 1 for read from file)" << endl;
+        cout << "must make a valid choice!! (0 for user input or 1 for read from file)" << endl;
         exit(99);
     }
 

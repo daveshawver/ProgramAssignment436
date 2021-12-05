@@ -1,1 +1,5 @@
-The input file must have spaces after each word except before and after the arrow for 
+Team members:  David Shawver, Jason Bachman, and Matt Caterino
+
+How to run program:
+
+The program can be 

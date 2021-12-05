@@ -8,6 +8,10 @@
 
 using namespace std;
 
+/**
+ * @brief 
+ * 
+ */
 void ClosureMap::read_from_file(){
 
     ifstream input_stream("example.txt");    
@@ -41,8 +45,6 @@ void ClosureMap::read_from_file(){
         R.push_back(temp);
     }
 
-
-
     for (int i = 0; i < R.size(); i++){
         R_as_Set.insert(*R[i]);
         // cout << *R[i] << ", ";
@@ -53,6 +55,8 @@ void ClosureMap::read_from_file(){
     }
 
 
+    // start reading functional dependency lines
+
     FD* FDTemp;
 
     for (int i = 0; i < numFDs; i++){
@@ -60,39 +64,49 @@ void ClosureMap::read_from_file(){
         FDTemp = new FD();
 
         temp = new string();
+
         // get next line
         getline(input_stream, *temp);
 
         int posOfArrow = temp->find("->");
 
         string temp2 = temp->substr(0, posOfArrow);
-        cout << "temp2 = " << temp2 << endl;
-
+        cout << "\ntemp2 = " << temp2 << endl;
+        
         stringstream lineEnteredStream(temp2);
 
         string token;
 
-        while(getline(lineEnteredStream, token,' ')){
+        while(getline(lineEnteredStream, token, ' ')){
             FDTemp->LHS.insert(*(new string(token)));
+            cout << "insert token LHS: " << token << endl;
         }
 
         string temp3 = temp->substr(posOfArrow + 2, temp->length() - posOfArrow + 1);
         cout << "temp3 = " << temp3 << endl;
 
         lineEnteredStream.clear();
-        lineEnteredStream.str(*temp);
-
         lineEnteredStream.str(temp3);
+
         string line; 
-        while(getline(lineEnteredStream, line)){
-            cout << "line = " << line << endl;
-            lineEnteredStream.clear();
-            lineEnteredStream.str(line);
-            while(getline(lineEnteredStream, token, ' ')){
-                cout << "token = " << token << endl;
-                FDTemp->RHS.insert(*(new string(token)));
-            }
+
+        //eat space after arrow
+        lineEnteredStream.seekg (1, ios::cur);
+
+        while(getline(lineEnteredStream, token, ' ')){
+            FDTemp->RHS.insert(*(new string(token)));
+            cout << "insert token RHS: " << token << endl;
         }
+        
+        // while(getline(lineEnteredStream, line)){
+        //     cout << "line = " << line << endl;
+        //     lineEnteredStream.clear();
+        //     lineEnteredStream.str(line);
+        //     while(getline(lineEnteredStream, token, ' ')){
+        //         cout << "token = " << token << endl;
+        //         FDTemp->RHS.insert(*(new string(token)));
+        //     }
+        // }
         FDArray.push_back(FDTemp);
     }
 }
@@ -258,8 +272,6 @@ set<string> ClosureMap::computeClosure(const set<string>* inputSubset){
 
       set<string> result(*inputSubset);
       set<string> previousStateofResult;
-
-
 
     while(!equal(result.begin(), result.end(), previousStateofResult.begin(), previousStateofResult.end())){
         previousStateofResult = result;

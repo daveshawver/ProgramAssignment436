@@ -1,0 +1,5 @@
+Writing candidate keys to a file.
+
+	CANDIDATE KEYS:
+
+	 candidate key 1 is (A, G, K)

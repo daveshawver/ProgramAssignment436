@@ -8,13 +8,13 @@
 
 using namespace std;
 
-/**
- * @brief 
- * 
- */
+
+
 void ClosureMap::read_from_file(){
 
-    ifstream input_stream("example.txt");    
+    extern commandLineArgs CL;
+
+    ifstream input_stream(CL.inputFilePath);    
 
     if (input_stream.fail()){
         cout << "there was a problem opening the file\n" << endl;
@@ -113,10 +113,10 @@ void ClosureMap::read_from_file(){
 
 ClosureMap::ClosureMap(int choice){
 
-    if (choice == 1){
+    if (choice == 2 || choice == 3){
         read_from_file();
     }
-    else if (choice == 0){
+    else if (choice == 1){
 
     string* temp;
     FD* FDTemp;
@@ -136,6 +136,19 @@ ClosureMap::ClosureMap(int choice){
         getline(cin, *temp);
         R.push_back(temp);
     }
+
+/////// this was missing from first submission //////////
+        for (int i = 0; i < R.size(); i++){
+        R_as_Set.insert(*R[i]);
+        // cout << *R[i] << ", ";
+    }
+
+/////////////////////////////////////////////////////////
+
+    for (auto it = R_as_Set.begin(); it != R_as_Set.end(); it++){
+        cout << *it << ", ";
+    }
+
 
     cout << "Now enter the functional dependencies.\n";
     cout << "How many functional dependencies would you like to add?\n";
@@ -374,4 +387,27 @@ void ClosureMap::remove_extra_sks_and_gen_cand_key_list(){
     }
 
 
+}
+
+void ClosureMap::write_candidate_keys_to_file(){
+    extern commandLineArgs CL;
+    ofstream myfile;
+    myfile.open(CL.outFilePath);
+    myfile << "Writing candidate keys to a file.\n";
+    myfile << "\n\tCANDIDATE KEYS:" << endl;
+
+
+    for(int i = 0; i < candidateKeys.size(); i++){
+        myfile << "\n\t candidate key " << i + 1 << " is (" ; 
+        for (auto it = candidateKeys[i].begin(); it != candidateKeys[i].end(); it++){
+            myfile << *it;
+            auto it2 = it;
+            if (++it2 != candidateKeys[i].end()){
+                myfile << ", ";
+            }
+        }
+        myfile << ")";
+    }
+    myfile << endl;
+    myfile.close();
 }

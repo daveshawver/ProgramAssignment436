@@ -6,6 +6,14 @@
 
 using namespace std;
 
+typedef struct commandLineArgs{
+    int numArgs;
+    string outFilePath;
+    string inputFilePath;
+} commandLineArgs;
+
+
+
 typedef struct FD{
 
     set<string> LHS;
@@ -37,5 +45,7 @@ class ClosureMap {
         void print_R();
         void print_superkeys();
         void print_all_subset_closure_pairs();
+        void write_candidate_keys_to_file();
+
         ClosureMap(int choice);
 };
